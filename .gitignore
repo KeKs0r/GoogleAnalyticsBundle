@@ -1,2 +1,18 @@
+<<<<<<< HEAD
 Tests/testkernel/cache/*
 phpunit.xml
+=======
+# Bootstrap
+app/bootstrap*
+
+# Symfony directories
+vendor/*
+*/logs/*
+*/cache/*
+web/uploads/*
+web/bundles/*
+
+# Configuration files
+app/config/parameters.ini
+app/config/parameters.yml
+>>>>>>> f89b929e186d4a59ebfcc1742ac658d3ca2e5b45

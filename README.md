@@ -159,3 +159,5 @@ Include the Google Maps in your template like this:
 			{% endautoescape %}
 		{% endfor %}
 	{% endif %}
+
+
