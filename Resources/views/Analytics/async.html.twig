@@ -1,82 +1,60 @@
+
 <script type="text/javascript">
-if (AntiMattr == null || typeof(AntiMattr) != 'object') { var AntiMattr = window.AntiMattr = {}; }
-AntiMattr.GoogleAnalytics = {};
-
-AntiMattr.GoogleAnalytics.onGatLoad = function(callback) {
-    if (typeof _gat != "undefined") {
-        callback();
-    } else {
-        var listener = this;
-        setTimeout(function(){
-            listener.onGatLoad(callback);					
-        },100);
-    }
-};
-
-AntiMattr.GoogleAnalytics.notifyEvent = function(tracker, category, action, label, value) {
-    var event = [tracker + '_trackEvent', category, action];
-    if (typeof label != 'undefined') {
-        event.push(label);
-        if (typeof value != 'undefined') {
-            event.push(value);
-        }
-    }
-    _gaq.push(event);
-};
 
 if ( _gaq == null || typeof(_gaq) != 'array') { var _gaq = window._gaq = []; }
 
 {% for key, tracker in google_analytics.trackers %}
-    _gaq.push(['{{ google_analytics.trackerName(key) }}_setAccount', '{{ tracker.accountId }}']);
-
-    {% if tracker.domain %}
-        _gaq.push(['{{ google_analytics.trackerName(key) }}_setDomainName', '{{ tracker.domain }}']);
-
-        {% if google_analytics.getAllowAnchor(key) %}
-            _gaq.push(['{{ google_analytics.trackerName(key) }}_setAllowAnchor', true ]);
-        {% else %}
-            _gaq.push(['{{ google_analytics.trackerName(key) }}_setAllowAnchor', false ]);
+   {# _gaq.push(['{{ google_analytics.trackerName(key) }}_setAccount', '{{ tracker.accountId }}']); #}
+  
+    {% spaceless %}
+    ga('create', '{{ tracker.accountId }}', 
+        {'name': '{{ google_analytics.trackerName(key) }}'
+        {% if tracker.domain %}
+            ,'cookieDomain' : '{{ tracker.domain }}'
+    
+            {% if google_analytics.getAllowAnchor(key) %}
+                ,'allowAnchor' : true
+            {% else %}
+                ,'allowAnchor' : false
+            {% endif %}
+    
         {% endif %}
-
-        {% if google_analytics.getAllowLinker(key) %}
-            _gaq.push(['{{ google_analytics.trackerName(key) }}_setAllowLinker', true ]);
-        {% else %}
-            _gaq.push(['{{ google_analytics.trackerName(key) }}_setAllowLinker', false ]);
+        
+        {% set siteSpeedSampleRate = google_analytics.getSiteSpeedSampleRate(key) %}
+        {% if siteSpeedSampleRate is defined and siteSpeedSampleRate is not null %}
+            ,'siteSpeedSampleRate' : {{ siteSpeedSampleRate }}
         {% endif %}
-
-        {% if google_analytics.getAllowHash(key) %}
-            _gaq.push(['{{ google_analytics.trackerName(key) }}_setAllowHash', true ]);
-        {% else %}
-            _gaq.push(['{{ google_analytics.trackerName(key) }}_setAllowHash', false ]);
-        {% endif %}
-    {% endif %}
+    
+    }); {# ga create #}
+    {% endspaceless %}
 
     {% if google_analytics.hasCustomVariables %}
         {% for customVariable in google_analytics.customVariables %}
-            _gaq.push(['{{ google_analytics.trackerName(key) }}_setCustomVar', {{ customVariable.index }}, '{{ customVariable.name }}', '{{ customVariable.value }}', {{ customVariable.scope }}]);
+            ga('{{ google_analytics.trackerName(key) }}.set', '{{ customVariable.name }}{{ customVariable.index }}', '{{ customVariable.value }}');
+            {# _gaq.push(['{{ google_analytics.trackerName(key) }}_setCustomVar', {{ customVariable.index }} , '{{ customVariable.name }}', '{{ customVariable.value }}', {{ customVariable.scope }}]);#}
         {% endfor %}
     {% endif %}
 
-    {% set siteSpeedSampleRate = google_analytics.getSiteSpeedSampleRate(key) %}
-    {% if siteSpeedSampleRate is defined and siteSpeedSampleRate is not null %}
-        _gaq.push(['{{ google_analytics.trackerName(key) }}_setSiteSpeedSampleRate', {{ siteSpeedSampleRate }}]);
-    {% endif %}
+   
 
     {% if google_analytics.hasPageViewQueue %}
         {% for pageView in google_analytics.pageViewQueue %}
-            _gaq.push(['{{ google_analytics.trackerName(key) }}_trackPageview', '{{ pageView }}']);
+            ga('{{ google_analytics.trackerName(key) }}.send', 'pageview', '{{ pageView }}');
+            {# _gaq.push(['{{ google_analytics.trackerName(key) }}_trackPageview', '{{ pageView }}']);#}
         {% endfor %}
     {% endif %}
 
     {% if google_analytics.hasCustomPageView %}
-        _gaq.push(['{{ google_analytics.trackerName(key) }}_trackPageview', '{{ google_analytics.getCustomPageView() | raw }}']);
+        ga('{{ google_analytics.trackerName(key) }}.send', 'pageview', '{{ google_analytics.getCustomPageView() | raw }}');
     {% else %}
         if (window.location.hash) {
-            _gaq.push(['{{ google_analytics.trackerName(key) }}_trackPageview', '{{ google_analytics.getRequestUri() | raw }}'+window.location.hash]);
+            ga('{{ google_analytics.trackerName(key) }}.send', 'pageview', '{{ google_analytics.getRequestUri() | raw }}'+window.location.hash]);
         } else {
-            _gaq.push(['{{ google_analytics.trackerName(key) }}_trackPageview', '{{ google_analytics.getRequestUri() | raw }}']);
+            ga('{{ google_analytics.trackerName(key) }}.send', 'pageview', '{{ google_analytics.getRequestUri() | raw }}');
         }
     {% endif %}
+    
+    {# Transaction DISABLED 
 
     {% if google_analytics.isTransactionValid %}
         {% set transaction = google_analytics.transaction %}
@@ -107,6 +85,8 @@ if ( _gaq == null || typeof(_gaq) != 'array') { var _gaq = window._gaq = []; }
         _gaq.push(['{{ google_analytics.trackerName(key) }}_trackTrans']);
 
     {% endif %}
+    
+    {# EVENTS DISABLED
 
     {% if google_analytics.hasEventQueue %}
         AntiMattr.GoogleAnalytics.onGatLoad(function() {
@@ -121,12 +101,13 @@ if ( _gaq == null || typeof(_gaq) != 'array') { var _gaq = window._gaq = []; }
         {% endfor %}
         });
     {% endif %}
+    
+    #}
 
 {% endfor %}
 
-(function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? '{{ google_analytics.sourceHttps | raw }}' : '{{ google_analytics.sourceHttp | raw }}') + '{{ google_analytics.sourceEndpoint | raw }}';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 </script>

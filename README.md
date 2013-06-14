@@ -29,14 +29,13 @@ Add GoogleBundle to the `registerBundles()` method of your application kernel:
 Enable loading of the Google Analytics service by adding the following to
 the application's `config.yml` file:
 
-    google:
-        analytics:
-            trackers:
-                default:
-                    name:      MyJavaScriptCompatibleVariableNameWithNoSpaces
-                    accountId: UA-xxxx-x
-                    domain:    .mydomain.com
-                    trackPageLoadTime: true
+    strego_google_analytics:
+        trackers:
+            default:
+                name:      MyJavaScriptCompatibleVariableNameWithNoSpaces
+                accountId: UA-xxxx-x
+                domain:    .mydomain.com
+                trackPageLoadTime: true
 
 #### View
 
