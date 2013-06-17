@@ -8,9 +8,31 @@
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     {% for key, tracker in google_analytics.trackers %}
+    
     ga('create', '{{ tracker.accountId }}', {{ tracker.config|json_encode|raw }});
+    
     {% for pageView in tracker.pageViews %}
     ga('{{ key }}.send', 'pageview', {{ pageView|json_encode|raw }});
+    {% endfor %}
+    
+    {% for event in tracker.events %}
+    {# The event character is provided in the event entity via the HitType #}
+    ga('{{ key }}.send', {{ event|json_encode|raw }} );
+    {% endfor %}
+    
+    {% if tracker.transaction is defined && tracker.transaction not null %}
+        ga('{{ key }}.require', 'ecommerce', 'ecommerce.js');
+        ga('{{ key }}.ecommerce:addTransaction', {{ tracker.transaction|json_encode|raw }} );
+        
+        {% for item in tracker.transaction.items %}
+            ga('{{ key }}.ecommerce:addItem', {{ item|json_encode|raw }});
+        {% endfor %}
+        
+        ga('{{ key }}.ecommerce:send');
+    {% endif %}
+    
+    {% for metDim in tracker.metricDims %}
+    ga('set', '{{ metDim.name }}{{ metDim.index }}', {{ metDim.value }});
     {% endfor %}
 
     {% endfor %}

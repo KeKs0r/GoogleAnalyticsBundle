@@ -32,6 +32,12 @@ class Event
      * )
      */
     private $value;
+    
+    /**
+     * Used for automatic JSON transformation to indicate the event send
+     * 
+     */
+    protected $hitType = 'event';
 
     public function __construct($category, $action, $label = null, $value = null)
     {

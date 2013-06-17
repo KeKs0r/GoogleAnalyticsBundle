@@ -20,6 +20,9 @@ class Tracker
     protected $accountID;
     protected $config = array();
     protected $pageViews = array();
+    protected $events = array();
+    protected $transaction;
+    protected $metricDims = array();
 
     public function __construct($accountId)
     {
@@ -82,6 +85,34 @@ class Tracker
 
     public function getPageViews(){
         return $this->pageViews;
+    }
+    
+    public function addEvent($event){
+        $this->events[] = $event;
+    }
+
+    public function getEvents(){
+        return $this->events;
+    }
+    
+    public function setTransaction($transaction){
+        $this->transaction = $transaction;
+    }
+    
+    public function addItem($item){
+        $this->transaction->addItem($item);
+    }
+    
+    public function getTransactino(){
+        return $this->transaction;
+    }
+    
+    public function addMetricDim($metricDim){
+        $this->metricDims[] = $metricDim;
+    }
+    
+    public function getMetricDims(){
+        return $this->metricDims;
     }
 
 

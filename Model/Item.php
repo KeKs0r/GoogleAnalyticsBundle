@@ -4,12 +4,22 @@ namespace Strego\GoogleBundle\Model;
 
 class Item
 {
-    private $category;
+    
+    private $id;
     private $name;
-    private $orderNumber;
+    private $sku;
+    private $category;
     private $price;
     private $quantity;
-    private $sku;
+    
+    public function setId($id){
+        $this->id = $id;
+    }
+    
+    public function getId(){
+        return $this->id;
+    }
+    
 
     public function setCategory($category)
     {
@@ -29,16 +39,6 @@ class Item
     public function getName()
     {
         return $this->name;
-    }
-
-    public function setOrderNumber($orderNumber)
-    {
-        $this->orderNumber = (string) $orderNumber;
-    }
-
-    public function getOrderNumber()
-    {
-        return $this->orderNumber;
     }
 
     public function setPrice($price)

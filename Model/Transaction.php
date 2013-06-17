@@ -4,14 +4,50 @@ namespace Strego\GoogleBundle\Model;
 
 class Transaction
 {
+    
+    /**
+     *  Transaction ID (required)
+     */
+    private $id;
+    
+    /**
+     * Affiliation or store name
+     */
     private $affiliation;
-    private $city;
-    private $country;
-    private $orderNumber;
+    
+    /**
+     * Grand Total
+     */ 
+    private $revenue;
+    
+    /**
+     * Shipping Costs
+     */ 
     private $shipping;
-    private $state;
+    
+    /**
+     * Taxes
+     */ 
     private $tax;
-    private $total;
+    
+    /**
+     * If this transaction ahs another currency than the default
+     */ 
+    private $currencyCode;
+    
+    protected $items = array();
+    
+    public function __construct($id, $affiliation = null, $revenue = null, $shipping = null, $tax = null){
+        $this->id = $id;
+        $this->affiliation = $affiliation;
+        $this->revenue = $revenue;
+        $this->shipping = $shipping;
+        $this->tax = $tax;
+    }
+    
+    public function getId(){
+        return $this->id;
+    }
 
     public function setAffiliation($affiliation)
     {
@@ -22,35 +58,15 @@ class Transaction
     {
         return $this->affiliation;
     }
-
-    public function setCity($city)
+    
+    public function setRevenue($revenue)
     {
-        $this->city = (string) $city;
+        $this->revenue = $revenue;
     }
 
-    public function getCity()
+    public function getRevenue()
     {
-        return $this->city;
-    }
-
-    public function setCountry($country)
-    {
-        $this->country = (string) $country;
-    }
-
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    public function setOrderNumber($orderNumber)
-    {
-        $this->orderNumber = (string) $orderNumber;
-    }
-
-    public function getOrderNumber()
-    {
-        return $this->orderNumber;
+        return $this->revenue;
     }
 
     public function setShipping($shipping)
@@ -63,16 +79,6 @@ class Transaction
         return $this->shipping;
     }
 
-    public function setState($state)
-    {
-        $this->state = (string) $state;
-    }
-
-    public function getState()
-    {
-        return $this->state;
-    }
-
     public function setTax($tax)
     {
         $this->tax = (float) $tax;
@@ -82,14 +88,14 @@ class Transaction
     {
         return $this->tax;
     }
-
-    public function setTotal($total)
-    {
-        $this->total = (float) $total;
+    
+    public function addItem($item){
+        $item->setId($this->getId());
+        $this->items[] = $item;
+    }
+    
+    public function getItems(){
+        return $this->items();
     }
 
-    public function getTotal()
-    {
-        return $this->total;
-    }
 }
