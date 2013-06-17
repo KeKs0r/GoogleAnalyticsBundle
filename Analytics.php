@@ -6,30 +6,28 @@ use Strego\GoogleBundle\Analytics\CustomVariable;
 use Strego\GoogleBundle\Analytics\Event;
 use Strego\GoogleBundle\Analytics\Item;
 use Strego\GoogleBundle\Analytics\Transaction;
+use Strego\GoogleBundle\Model\PageView;
 use Strego\GoogleBundle\Model\Tracker;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Analytics
 {
+
+    /*
     const EVENT_QUEUE_KEY = 'google_analytics/event/queue';
     const CUSTOM_PAGE_VIEW_KEY = 'google_analytics/page_view';
     const PAGE_VIEW_QUEUE_KEY = 'google_analytics/page_view/queue';
     const TRANSACTION_KEY = 'google_analytics/transaction';
     const ITEMS_KEY = 'google_analytics/items';
-
+    */
 
     /**
      * @var TrackerFactory
      */
     protected $trackerFactory;
 
-    private $container;
-    private $customVariables = array();
-    private $pageViewsWithBaseUrl = true;
-    private $whitelist;
-    private $api_key;
-    private $client_id;
-    private $table_id;
+
+
 
     public function __construct($trackerFactory) {
         $this->trackerFactory = $trackerFactory;
@@ -59,9 +57,23 @@ class Analytics
         return $this->trackerFactory->getTrackers();
     }
 
+    public function addPageView($page, $title = null, $tracker = null){
+        $pageView = new PageView($page, $title);
+        $this->getTracker($tracker)->addPageView($pageView);
+    }
 
 
 
+
+    /*************** Old stuff from original Bundle ******************/
+
+    private $container;
+    private $customVariables = array();
+    private $pageViewsWithBaseUrl = true;
+    private $whitelist;
+    private $api_key;
+    private $client_id;
+    private $table_id;
 
 
     public function excludeBaseUrl()

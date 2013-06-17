@@ -1,13 +1,13 @@
 {
-    "name": "antimattr/google-bundle",
-    "description": "The GoogleBundle adds the ability to add various google-related services to your application. These include Google Analytics, Adwords and Static Maps.",
-    "keywords": ["google", "analytics", "adwords", "maps"],
+    "name": "strego/google-bundle",
+    "description": "Bundle to use the Universal Analytics Google API",
+    "keywords": ["google", "analytics", "universal analytics"],
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
         {
-            "name":     "antimattr",
-            "homepage": "https://github.com/antimattr"
+            "name":     "Marc Höffl",
+            "homepage": "https://github.com/KeKs0r"
         }
     ],
     "require": {
@@ -22,5 +22,5 @@
             "Strego\\GoogleBundle": ""
         }
     },
-    "target-dir" : "AntiMattr/GoogleBundle"
+    "target-dir" : "Strego/GoogleBundle"
 }

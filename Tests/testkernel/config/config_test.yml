@@ -28,10 +28,4 @@ strego_google:
             allowLinker: true
             trackPageLoadTime: false
 
-##########################
-    adwords:
-        conversions:
-            account_create:
-                id:    111111
-                label: accountCreateLabel
-                value: 0
+

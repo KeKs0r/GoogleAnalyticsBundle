@@ -40,10 +40,22 @@ class AnalyticsWebTest extends WebTestCase
         parent::tearDown();
     }
 
-    public function testOutPut(){
-        //$this->analytics->getTracker()
-        print($this->template->render('StregoGoogleBundle:Analytics:async.html.twig'));
+    public function testStandardOutput(){
+        $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
+        $this->assertContains('ga(\'create\', \'xXxxXx\', {"domain":".example.com","allowHash":false,"allowLinker":true,"trackPageLoadTime":false,"name":"default"}}', $output);
     }
+
+    public function testPageViewOutput(){
+        $this->analytics->addPageView('/testPage', 'testPageTitle');
+        $this->analytics->addPageView('/test2Page', 'test2PageTitle');
+        $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
+        $this->assertContains('/testPage',$output);
+        $this->assertContains('testPageTitle',$output);
+        $this->assertContains('/test2Page',$output);
+        $this->assertContains('test2PageTitle',$output);
+//        print($output);
+    }
+
 
 
 

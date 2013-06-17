@@ -19,11 +19,7 @@ class Tracker
 
     protected $accountID;
     protected $config = array();
-    protected $name;
-    protected $domain;
-    protected $allowHash;
-    protected $allowLinker;
-    protected $trackPageLoadTime;
+    protected $pageViews = array();
 
     public function __construct($accountId)
     {
@@ -79,6 +75,16 @@ class Tracker
     public function getAccountId(){
         return $this->accountID;
     }
+
+    public function addPageView($pageView){
+        $this->pageViews[] = $pageView;
+    }
+
+    public function getPageViews(){
+        return $this->pageViews;
+    }
+
+
 
 
 
