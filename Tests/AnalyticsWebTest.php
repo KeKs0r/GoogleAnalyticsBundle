@@ -82,6 +82,28 @@ class AnalyticsWebTest extends WebTestCase
         $this->validateTemplate();
     }
     
+    public function testEcommerceOutPut(){
+        $transaction = new Transaction('7238');
+        $item1 = new Item();
+        $item1->setPrice(12.43);
+        $item1->setName('TestProduct');
+        $transaction->addItem($item1);
+         
+        $this->analytics->setTransaction($transaction);
+        $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
+        
+        $this->assertContains("ga('require', 'ecommerce', 'ecommerce.js');",$output);
+        $this->assertContains("ga('ecommerce:send');",$output);
+        $this->assertContains("ga('ecommerce:addTransaction'",$output);
+        $this->assertContains("TestProduct",$output);
+        $this->assertContains("7238",$output);
+        $this->assertContains("ga('ecommerce:addItem',",$output);
+        $this->assertContains("12.43",$output);
+        
+        
+        $this->validateTemplate();
+    }
+    
     
     protected function validateTemplate(){
         $twig = static::$kernel->getContainer()->get('twig');
