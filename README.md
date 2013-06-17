@@ -58,15 +58,14 @@ With twig:
 
 Just get the analytics service in your controller via:
 
-´´´PHP
-$analytics = $this->get('strego_google');
+    $analytics = $this->get('strego_google');
 
-// To add just a pageview:
-$analytics->addPageView('/testPage');
+    // To add just a pageview:
+    $analytics->addPageView('/testPage');
 
-//To add a Pageview with a specific title
-$analytics->addPageView('/testPage2', 'testPage2Title);
-´´´
+    //To add a Pageview with a specific title
+    $analytics->addPageView('/testPage2', 'testPage2Title);
+
 
 
 
