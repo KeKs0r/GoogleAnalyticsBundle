@@ -1,25 +1,37 @@
 <?php
 
-namespace AntiMattr\GoogleBundle\Helper;
+namespace Strego\GoogleBundle\Helper;
 
-use AntiMattr\GoogleBundle\Analytics;
-use AntiMattr\GoogleBundle\Analytics\Event;
+use Strego\GoogleBundle\Analytics;
+use Strego\GoogleBundle\Model\Event;
 use Symfony\Component\Templating\Helper\Helper;
 
 class AnalyticsHelper extends Helper
 {
     private $analytics;
-    private $sourceHttps;
-    private $sourceHttp;
-    private $sourceEndpoint;
 
-    public function __construct(Analytics $analytics, $sourceHttps, $sourceHttp, $sourceEndpoint)
+
+    public function __construct(Analytics $analytics)
     {
         $this->analytics = $analytics;
-        $this->sourceHttps = $sourceHttps;
-        $this->sourceHttp = $sourceHttp;
-        $this->sourceEndpoint = $sourceEndpoint;
     }
+
+    public function getTrackers()
+    {
+        return $this->analytics->getTrackers();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function getAllowAnchor($trackerKey)
     {
@@ -119,10 +131,7 @@ class AnalyticsHelper extends Helper
         return $this->sourceEndpoint;
     }
 
-    public function getTrackers(array $trackers = array())
-    {
-        return $this->analytics->getTrackers($trackers);
-    }
+
     
     public function getApiKey()
     {

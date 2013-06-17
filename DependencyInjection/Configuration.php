@@ -1,4 +1,4 @@
-namespace AntiMattr\GoogleBundle\DependencyInjection;
+namespace Strego\GoogleBundle\DependencyInjection;
  
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

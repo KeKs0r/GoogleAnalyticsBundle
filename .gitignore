@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 Tests/testkernel/cache/*
 phpunit.xml
-=======
+
 # Bootstrap
 app/bootstrap*
 
@@ -15,4 +14,7 @@ web/bundles/*
 # Configuration files
 app/config/parameters.ini
 app/config/parameters.yml
->>>>>>> f89b929e186d4a59ebfcc1742ac658d3ca2e5b45
+
+# For travis and autotests
+composer.phar
+composer.lock

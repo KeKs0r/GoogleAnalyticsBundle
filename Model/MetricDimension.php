@@ -1,20 +1,19 @@
 <?php
 
-namespace AntiMattr\GoogleBundle\Analytics;
+namespace Strego\GoogleBundle\Model;
 
-class CustomVariable
+class MetricDimension
 {
     private $index;
     private $name;
     private $value;
-    private $scope = 1;
 
-    public function __construct($index, $name, $value, $scope = 1)
+
+    public function __construct($index, $name, $value)
     {
         $this->index = $index;
         $this->name = $name;
         $this->value = $value;
-        $this->scope = $scope;
     }
 
     public function getIndex()
@@ -32,8 +31,4 @@ class CustomVariable
         return $this->value;
     }
 
-    public function getScope()
-    {
-        return $this->scope;
-    }
 }

@@ -1,40 +1,68 @@
 <?php
 
-namespace AntiMattr\GoogleBundle;
+namespace Strego\GoogleBundle;
 
-use AntiMattr\GoogleBundle\Analytics\CustomVariable;
-use AntiMattr\GoogleBundle\Analytics\Event;
-use AntiMattr\GoogleBundle\Analytics\Item;
-use AntiMattr\GoogleBundle\Analytics\Transaction;
+use Strego\GoogleBundle\Analytics\CustomVariable;
+use Strego\GoogleBundle\Analytics\Event;
+use Strego\GoogleBundle\Analytics\Item;
+use Strego\GoogleBundle\Analytics\Transaction;
+use Strego\GoogleBundle\Model\Tracker;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Analytics
 {
-    const EVENT_QUEUE_KEY      = 'google_analytics/event/queue';
+    const EVENT_QUEUE_KEY = 'google_analytics/event/queue';
     const CUSTOM_PAGE_VIEW_KEY = 'google_analytics/page_view';
-    const PAGE_VIEW_QUEUE_KEY  = 'google_analytics/page_view/queue';
-    const TRANSACTION_KEY      = 'google_analytics/transaction';
-    const ITEMS_KEY            = 'google_analytics/items';
+    const PAGE_VIEW_QUEUE_KEY = 'google_analytics/page_view/queue';
+    const TRANSACTION_KEY = 'google_analytics/transaction';
+    const ITEMS_KEY = 'google_analytics/items';
+
+
+    /**
+     * @var TrackerFactory
+     */
+    protected $trackerFactory;
 
     private $container;
     private $customVariables = array();
     private $pageViewsWithBaseUrl = true;
-    private $trackers;
     private $whitelist;
     private $api_key;
     private $client_id;
     private $table_id;
 
-    public function __construct(ContainerInterface $container,
-            array $trackers = array(), array $whitelist = array(), array $dashboard = array())
-    {
-        $this->container = $container;
-        $this->trackers = $trackers;
-        $this->whitelist = $whitelist;
-        $this->api_key = isset($dashboard['api_key']) ? $dashboard['api_key'] : '';
-        $this->client_id = isset($dashboard['client_id']) ? $dashboard['client_id'] : '';
-        $this->table_id = isset($dashboard['table_id']) ? $dashboard['table_id'] : '';
+    public function __construct($trackerFactory) {
+        $this->trackerFactory = $trackerFactory;
     }
+
+    public function setConfig($key, $value, $trackerName = null)
+    {
+        $this->trackerFactory->getTracker($trackerName)->set($key, $value);
+    }
+
+
+    /**
+     * @param string $name
+     * @return Tracker
+     * @throws InvalidArgumentException
+     */
+    public function getTracker($name = null)
+    {
+        return $this->trackerFactory->getTracker($name);
+    }
+
+    /**
+     * @return array $trackers
+     */
+    public function getTrackers()
+    {
+        return $this->trackerFactory->getTrackers();
+    }
+
+
+
+
+
 
     public function excludeBaseUrl()
     {
@@ -49,8 +77,12 @@ class Analytics
     private function isValidConfigKey($trackerKey)
     {
         if (!array_key_exists($trackerKey, $this->trackers)) {
-            throw new \InvalidArgumentException(sprintf('There is no tracker configuration assigned with the key "%s".', $trackerKey));
+            throw new \InvalidArgumentException(sprintf(
+                'There is no tracker configuration assigned with the key "%s".',
+                $trackerKey
+            ));
         }
+
         return true;
     }
 
@@ -90,6 +122,7 @@ class Analytics
         if (null === ($property = $this->getTrackerProperty($trackerKey, 'allowAnchor'))) {
             return false;
         }
+
         return $property;
     }
 
@@ -111,6 +144,7 @@ class Analytics
         if (null === ($property = $this->getTrackerProperty($trackerKey, 'allowHash'))) {
             return false;
         }
+
         return $property;
     }
 
@@ -132,6 +166,7 @@ class Analytics
         if (null === ($property = $this->getTrackerProperty($trackerKey, 'allowLinker'))) {
             return true;
         }
+
         return $property;
     }
 
@@ -153,6 +188,7 @@ class Analytics
         if (null === ($property = $this->getTrackerProperty($trackerKey, 'includeNamePrefix'))) {
             return true;
         }
+
         return $property;
     }
 
@@ -190,7 +226,7 @@ class Analytics
     public function getSiteSpeedSampleRate($trackerKey)
     {
         if (null != ($property = $this->getTrackerProperty($trackerKey, 'setSiteSpeedSampleRate'))) {
-            return (int) $property;
+            return (int)$property;
         }
     }
 
@@ -201,6 +237,7 @@ class Analytics
     {
         $customPageView = $this->container->get('session')->get(self::CUSTOM_PAGE_VIEW_KEY);
         $this->container->get('session')->remove(self::CUSTOM_PAGE_VIEW_KEY);
+
         return $customPageView;
     }
 
@@ -244,6 +281,7 @@ class Analytics
         if (!empty($this->customVariables)) {
             return true;
         }
+
         return false;
     }
 
@@ -297,6 +335,7 @@ class Analytics
             return false;
         }
         $items = $this->getItemsFromSession();
+
         return in_array($item, $items, true);
     }
 
@@ -374,28 +413,12 @@ class Analytics
         $query = http_build_query($params);
 
         if (isset($query) && '' != trim($query)) {
-            $requestUri .= '?'. $query;
+            $requestUri .= '?' . $query;
         }
+
         return $requestUri;
     }
 
-    /**
-     * @return array $trackers
-     */
-    public function getTrackers(array $trackers = array())
-    {
-        if (!empty($trackers)) {
-            $trackers = array();
-            foreach ($trackers as $key) {
-                if (isset($this->trackers[$key])) {
-                    $trackers[$key] = $this->trackers[$key];
-                }
-            }
-            return $trackers;
-        } else {
-            return $this->trackers;
-        }
-    }
 
     /**
      * @return boolean $isTransactionValid
@@ -413,6 +436,7 @@ class Analytics
                 }
             }
         }
+
         return true;
     }
 
@@ -423,6 +447,7 @@ class Analytics
     {
         $transaction = $this->getTransactionFromSession();
         $this->container->get('session')->remove(self::TRANSACTION_KEY);
+
         return $transaction;
     }
 
@@ -460,6 +485,7 @@ class Analytics
     private function has($key)
     {
         $bucket = $this->container->get('session')->get($key, array());
+
         return !empty($bucket);
     }
 
@@ -480,6 +506,7 @@ class Analytics
     {
         $value = $this->container->get('session')->get($key, array());
         $this->container->get('session')->remove($key);
+
         return $value;
     }
 
@@ -500,7 +527,7 @@ class Analytics
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getApiKey()
@@ -509,7 +536,7 @@ class Analytics
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getClientId()
@@ -518,10 +545,22 @@ class Analytics
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getTableId()
     {
         return $this->table_id;
     }
+
+    /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++**/
+
+
+    public function setDefaultTrackerName($defaultTrackerName)
+    {
+        $this->defaultTrackerName = $defaultTrackerName;
+    }
+
+
+
+
 }

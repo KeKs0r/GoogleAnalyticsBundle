@@ -1,15 +1,36 @@
 <?php
 
-namespace AntiMattr\GoogleBundle\Analytics;
+namespace Strego\GoogleBundle\Model;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @link http://code.google.com/apis/analytics/docs/tracking/eventTrackerGuide.html
+ * @link https://developers.google.com/analytics/devguides/collection/analyticsjs/events
  */
 class Event
 {
+
+    /**
+     * @Assert\Type(type="string", message="The value {{ value }} is not a valid {{ type }}.")
+     */
     private $action;
+
+    /**
+     * @Assert\Type(type="string", message="The value {{ value }} is not a valid {{ type }}.")
+     */
     private $category;
+
+    /**
+     * @Assert\Type(type="string", message="The value {{ value }} is not a valid {{ type }}.")
+     */
     private $label;
+
+    /**
+     * @Assert\Type(type="integer", message="The value {{ value }} is not a valid {{ type }}.")
+     * @Assert\Range(
+     *      min = 0
+     * )
+     */
     private $value;
 
     public function __construct($category, $action, $label = null, $value = null)

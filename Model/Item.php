@@ -1,6 +1,6 @@
 <?php
 
-namespace AntiMattr\GoogleBundle\Analytics;
+namespace Strego\GoogleBundle\Model;
 
 class Item
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace AntiMattr\GoogleBundle;
+namespace Strego\GoogleBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
 
-class GoogleBundle extends BaseBundle
+class StregoGoogleBundle extends BaseBundle
 {
     /**
      * {@inheritdoc}

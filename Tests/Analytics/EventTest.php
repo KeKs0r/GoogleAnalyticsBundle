@@ -1,8 +1,8 @@
 <?php
 
-namespace AntiMattr\GoogleBundle\Tests\Analytics;
+namespace Strego\GoogleBundle\Tests\Analytics;
 
-use AntiMattr\GoogleBundle\Analytics\Event;
+use Strego\GoogleBundle\Model\Event;
 
 class EventTest extends \PHPUnit_Framework_TestCase
 {

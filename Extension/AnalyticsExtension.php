@@ -1,8 +1,8 @@
 <?php
 
-namespace AntiMattr\GoogleBundle\Extension;
+namespace Strego\GoogleBundle\Extension;
 
-use AntiMattr\GoogleBundle\Helper\AnalyticsHelper;
+use Strego\GoogleBundle\Helper\AnalyticsHelper;
 
 class AnalyticsExtension extends \Twig_Extension
 {

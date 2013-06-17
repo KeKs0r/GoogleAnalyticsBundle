@@ -4,7 +4,6 @@ web_profiler:
 
 framework:
     secret:        notasecret
-    charset:       UTF-8
     test: ~
     router:        { resource: "%kernel.root_dir%/config/routing_test.yml" }
     profiler:      { only_exceptions: false }
@@ -19,16 +18,17 @@ twig:
     debug:            %kernel.debug%
     strict_variables: false
 
-google:
-    analytics:
-        trackers:
-            default:
-                name: MyJavaScriptCompatibleVariableNameWithNoSpaces
-                accountId: xxxxxx
-                domain: .example.com
-                allowHash: false
-                allowLinker: true
-                trackPageLoadTime: false
+strego_google:
+    default_tracker: default
+    trackers:
+        default:
+            accountId: xXxxXx
+            domain: .example.com
+            allowHash: false
+            allowLinker: true
+            trackPageLoadTime: false
+
+##########################
     adwords:
         conversions:
             account_create:

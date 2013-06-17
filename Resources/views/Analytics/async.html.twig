@@ -1,108 +1,11 @@
 
 <script type="text/javascript">
 
-if ( _gaq == null || typeof(_gaq) != 'array') { var _gaq = window._gaq = []; }
-
 {% for key, tracker in google_analytics.trackers %}
-   {# _gaq.push(['{{ google_analytics.trackerName(key) }}_setAccount', '{{ tracker.accountId }}']); #}
-  
+
     {% spaceless %}
-    ga('create', '{{ tracker.accountId }}', 
-        {'name': '{{ google_analytics.trackerName(key) }}'
-        {% if tracker.domain %}
-            ,'cookieDomain' : '{{ tracker.domain }}'
-    
-            {% if google_analytics.getAllowAnchor(key) %}
-                ,'allowAnchor' : true
-            {% else %}
-                ,'allowAnchor' : false
-            {% endif %}
-    
-        {% endif %}
-        
-        {% set siteSpeedSampleRate = google_analytics.getSiteSpeedSampleRate(key) %}
-        {% if siteSpeedSampleRate is defined and siteSpeedSampleRate is not null %}
-            ,'siteSpeedSampleRate' : {{ siteSpeedSampleRate }}
-        {% endif %}
-    
-    }); {# ga create #}
+    ga('create', '{{ tracker.accountId }}', {{ tracker.config|json_encode|raw }}}
     {% endspaceless %}
-
-    {% if google_analytics.hasCustomVariables %}
-        {% for customVariable in google_analytics.customVariables %}
-            ga('{{ google_analytics.trackerName(key) }}.set', '{{ customVariable.name }}{{ customVariable.index }}', '{{ customVariable.value }}');
-            {# _gaq.push(['{{ google_analytics.trackerName(key) }}_setCustomVar', {{ customVariable.index }} , '{{ customVariable.name }}', '{{ customVariable.value }}', {{ customVariable.scope }}]);#}
-        {% endfor %}
-    {% endif %}
-
-   
-
-    {% if google_analytics.hasPageViewQueue %}
-        {% for pageView in google_analytics.pageViewQueue %}
-            ga('{{ google_analytics.trackerName(key) }}.send', 'pageview', '{{ pageView }}');
-            {# _gaq.push(['{{ google_analytics.trackerName(key) }}_trackPageview', '{{ pageView }}']);#}
-        {% endfor %}
-    {% endif %}
-
-    {% if google_analytics.hasCustomPageView %}
-        ga('{{ google_analytics.trackerName(key) }}.send', 'pageview', '{{ google_analytics.getCustomPageView() | raw }}');
-    {% else %}
-        if (window.location.hash) {
-            ga('{{ google_analytics.trackerName(key) }}.send', 'pageview', '{{ google_analytics.getRequestUri() | raw }}'+window.location.hash]);
-        } else {
-            ga('{{ google_analytics.trackerName(key) }}.send', 'pageview', '{{ google_analytics.getRequestUri() | raw }}');
-        }
-    {% endif %}
-    
-    {# Transaction DISABLED 
-
-    {% if google_analytics.isTransactionValid %}
-        {% set transaction = google_analytics.transaction %}
-        _gaq.push(['{{ google_analytics.trackerName(key) }}_addTrans',
-            '{{ transaction.orderNumber | escape('js') }}', // order number required
-            '{{ transaction.affiliation | escape('js') }}', // affiliation optional
-            '{{ transaction.total | escape('js') }}', // total optional
-            '{{ transaction.tax | escape('js') }}', // tax optional
-            '{{ transaction.shipping | escape('js') }}', // shipping optional
-            '{{ transaction.city | escape('js') }}', // city optional
-            '{{ transaction.state | escape('js') }}', // state optional
-            '{{ transaction.country | escape('js') }}' // country optional
-        ]);
-
-        {% if google_analytics.hasItems %}
-            {% for item in google_analytics.items %}
-                _gaq.push(['{{ google_analytics.trackerName(key) }}_addItem',
-                    '{{ item.orderNumber | escape('js') }}', // order number required
-                    '{{ item.sku | escape('js') }}', // sku required
-                    '{{ item.name | escape('js') }}', // name optional
-                    '{{ item.category | escape('js') }}', // category optional
-                    '{{ item.price | escape('js') }}', // price required
-                    '{{ item.quantity | escape('js') }}' // quantity required
-                ]);
-            {% endfor %}
-        {% endif %}
-
-        _gaq.push(['{{ google_analytics.trackerName(key) }}_trackTrans']);
-
-    {% endif %}
-    
-    {# EVENTS DISABLED
-
-    {% if google_analytics.hasEventQueue %}
-        AntiMattr.GoogleAnalytics.onGatLoad(function() {
-        {% for event in google_analytics.eventQueue %}
-            AntiMattr.GoogleAnalytics.notifyEvent(
-                  '{{ google_analytics.trackerName(key) }}'
-                , '{{ event.category }}'
-                , '{{ event.action }}'
-                {% if event.label is not null %}, '{{ event.label }}'{% endif %}
-                {% if event.value is not null %}, {{ event.value }}{% endif %}
-            );
-        {% endfor %}
-        });
-    {% endif %}
-    
-    #}
 
 {% endfor %}
 

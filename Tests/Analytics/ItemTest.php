@@ -1,8 +1,8 @@
 <?php
 
-namespace AntiMattr\GoogleBundle\Tests\Analytics;
+namespace Strego\GoogleBundle\Tests\Analytics;
 
-use AntiMattr\GoogleBundle\Analytics\Item;
+use Strego\GoogleBundle\Model\Item;
 
 class ItemTest extends \PHPUnit_Framework_TestCase
 {

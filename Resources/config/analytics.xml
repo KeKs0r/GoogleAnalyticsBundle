@@ -3,31 +3,33 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="google.analytics.dashboard" type="collection" />
-        <parameter key="google.analytics.trackers" type="collection" />
-        <parameter key="google.analytics.whitelist" type="collection" />
-        <parameter key="google.analytics.js_source_https">https://ssl</parameter>
-        <parameter key="google.analytics.js_source_http">http://www</parameter>
-        <parameter key="google.analytics.js_source_endpoint">.google-analytics.com/ga.js</parameter>
+        <parameter key="strego_google.trackers" type="collection" />
+        <parameter key="strego_google.default_tracker"/>
     </parameters>
 
     <services>
-        <service id="google.analytics" class="AntiMattr\GoogleBundle\Analytics">
-            <argument type="service" id="service_container" />
-            <argument>%google.analytics.trackers%</argument>
-            <argument>%google.analytics.whitelist%</argument>
-            <argument>%google.analytics.dashboard%</argument>
+        <service id="strego_google" class="Strego\GoogleBundle\Analytics">
+            <argument type="service" id="strego_google.tracker_factory" />
         </service>
 
-        <service id="templating.helper.google_analytics" class="AntiMattr\GoogleBundle\Helper\AnalyticsHelper">
+
+        <service id="strego_google.tracker_factory" class="Strego\GoogleBundle\TrackerFactory" public="false" />
+
+        <!--<service id="strego_google.tracker_factory" class="Strego\GoogleBundle\TrackerFactory">-->
+            <!--<argument>%strego_google.trackers%</argument>-->
+            <!--<argument>%strego_google.default_tracker%</argument>-->
+        <!--</service>-->
+
+
+        <service id="templating.helper.google_analytics" class="Strego\GoogleBundle\Helper\AnalyticsHelper">
             <tag name="templating.helper" alias="google_analytics" />
-            <argument type="service" id="google.analytics" />
-            <argument>%google.analytics.js_source_https%</argument>
-            <argument>%google.analytics.js_source_http%</argument>
-            <argument>%google.analytics.js_source_endpoint%</argument>
+            <argument type="service" id="strego_google" />
+            <!--<argument>%strego_google.js_source_https%</argument>-->
+            <!--<argument>%strego_google.js_source_http%</argument>-->
+            <!--<argument>%strego_google.js_source_endpoint%</argument>-->
         </service>
 
-        <service id="twig.extension.google_analytics" class="AntiMattr\GoogleBundle\Extension\AnalyticsExtension" public="false">
+        <service id="twig.extension.google_analytics" class="Strego\GoogleBundle\Extension\AnalyticsExtension" public="false">
             <tag name="twig.extension" />
             <argument type="service" id="templating.helper.google_analytics" />
         </service>

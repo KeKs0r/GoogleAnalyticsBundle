@@ -1,8 +1,8 @@
 <?php
 
-namespace AntiMattr\GoogleBundle\Tests\Analytics;
+namespace Strego\GoogleBundle\Tests\Analytics;
 
-use AntiMattr\GoogleBundle\Analytics\Transaction;
+use Strego\GoogleBundle\Model\Transaction;
 
 class TransactionTest extends \PHPUnit_Framework_TestCase {
 
