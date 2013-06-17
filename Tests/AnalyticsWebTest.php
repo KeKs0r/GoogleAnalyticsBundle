@@ -43,6 +43,8 @@ class AnalyticsWebTest extends WebTestCase
     public function testStandardOutput(){
         $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
         $this->assertContains('ga(\'create\', \'xXxxXx\', {"domain":".example.com","allowHash":false,"allowLinker":true,"trackPageLoadTime":false,"name":"default"});', $output);
+        
+        $this->validateTemplate();
     }
 
     public function testPageViewOutput(){
@@ -53,7 +55,41 @@ class AnalyticsWebTest extends WebTestCase
         $this->assertContains('testPageTitle',$output);
         $this->assertContains('/test2Page',$output);
         $this->assertContains('test2PageTitle',$output);
-//        print($output);
+        
+        $this->validateTemplate();
+    }
+    
+    public function testEventOutput(){
+        $this->analytics->addEvent('category1', 'action1');
+        $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
+        $this->assertContains('category1',$output);
+        $this->assertContains('action1',$output);
+        
+        $this->analytics->addEvent('category2', 'action2', 'label2');
+        $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
+        $this->assertContains('category2',$output);
+        $this->assertContains('action2',$output);
+        $this->assertContains('label2',$output);
+        
+        $this->analytics->addEvent('category3', 'action3', 'label3', 1823);
+        $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
+        $this->assertContains('category3',$output);
+        $this->assertContains('action3',$output);
+        $this->assertContains('label3',$output);
+        $this->assertContains('1823',$output);
+        
+        
+        $this->validateTemplate();
+    }
+    
+    
+    protected function validateTemplate(){
+        $twig = static::$kernel->getContainer()->get('twig');
+        //try {
+            $twig->parse($twig->tokenize('StregoGoogleBundle:Analytics:async.html.twig'));
+        //} catch (\Twig_Error $e) {
+        //   $this->fail('template linting failed');
+        //}
     }
 
 
