@@ -30,16 +30,43 @@ the application's `config.yml` file:
                 default:
                     accountId: xXxxXx
                     domain: .example.com
+
+#### Full Configugarion Reference
+
+        strego_google:
+            default_tracker: default
+            trackers:
+                default:
+                    accountId: xXxxXx
+                    domain: .example.com
                     allowHash: false
                     allowLinker: true
                     trackPageLoadTime: false
+                    
 
 #### View
 
-Include the Google Analytics Async template in the `head` tag or just before the `</body>` of your layout (The template will lazy load _gaq).
+Include the Google Analytics Async template in the `head` tag or just before the `</body>` of your layout (The template will lazy load ga).
 
 With twig:
 
     {% include "StregoGoogleBundle:Analytics:async.html.twig" %}
 
-#### Features
+## Usage
+
+### Manually trigger an PageView
+
+Just get the analytics service in your controller via:
+
+    $analytics = $this->get('strego_google');
+
+    // To add just a pageview:
+    $analytics->addPageView('/testPage');
+
+    //To add a Pageview with a specific title
+    $analytics->addPageView('/testPage2', 'testPage2Title);
+
+
+
+
+
