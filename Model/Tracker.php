@@ -31,7 +31,7 @@ class Tracker
         return array(
             'name',
             'accountId',
-            'domain',
+            'cookieDomain',
             'allowHash',
             'allowLinker',
             'trackPageLoadTime',
@@ -71,7 +71,10 @@ class Tracker
 public
 function setConfig($config)
 {
-    $this->config = $config;
+    foreach ($config as $key => $value){
+        $this->set($key,$value);
+    }
+    // $this->config = $config;
 }
 
 public
