@@ -8,9 +8,16 @@
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     {% for key, tracker in google_analytics.trackers %}
+    {% if key == google_analytics.defaultTracker %}}
+         {%  set prefix = '' %}
+    {% else %}}
+        {%  set prefix = key ~ '.' %}
+    {% endif %}}
+
+
     ga('create', '{{ tracker.accountId }}', {{ tracker.config|json_encode|raw }});
     {% for pageView in tracker.pageViews %}
-    ga('{{ key }}.send', 'pageview', {{ pageView|json_encode|raw }});
+    ga('{{ prefix }}send', 'pageview', {{ pageView|json_encode|raw }});
     {% endfor %}
 
     {% endfor %}

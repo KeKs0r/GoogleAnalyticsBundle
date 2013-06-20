@@ -51,8 +51,9 @@ class Tracker
         $this->config[$key] = $value;
     }
 
-    public function get($key){
-        if(!array_key_exists($key, $this->config)){
+    public function get($key)
+    {
+        if (!array_key_exists($key, $this->config)) {
             throw new InvalidArgumentException(sprintf(
                 "%key% is does not exist, only: %valid%",
                 $key,
@@ -63,29 +64,39 @@ class Tracker
         return $this->config[$key];
     }
 
-    public function setConfig($config){
-        $this->config = $config;
-    }
+    public function reset($key){
+    unset($this->config[$key]);
+}
 
-    public function getConfig()
-    {
-        return $this->config;
-    }
+public
+function setConfig($config)
+{
+    $this->config = $config;
+}
 
-    public function getAccountId(){
-        return $this->accountID;
-    }
+public
+function getConfig()
+{
+    return $this->config;
+}
 
-    public function addPageView($pageView){
-        $this->pageViews[] = $pageView;
-    }
+public
+function getAccountId()
+{
+    return $this->accountID;
+}
 
-    public function getPageViews(){
-        return $this->pageViews;
-    }
+public
+function addPageView($pageView)
+{
+    $this->pageViews[] = $pageView;
+}
 
-
-
+public
+function getPageViews()
+{
+    return $this->pageViews;
+}
 
 
 }

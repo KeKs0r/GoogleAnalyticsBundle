@@ -42,7 +42,7 @@ class AnalyticsWebTest extends WebTestCase
 
     public function testStandardOutput(){
         $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
-        $this->assertContains('ga(\'create\', \'xXxxXx\', {"domain":".example.com","allowHash":false,"allowLinker":true,"trackPageLoadTime":false,"name":"default"});', $output);
+        $this->assertContains('ga(\'create\', \'xXxxXx\', {"domain":".example.com","allowHash":false,"allowLinker":true,"trackPageLoadTime":false});', $output);
     }
 
     public function testPageViewOutput(){
@@ -53,7 +53,7 @@ class AnalyticsWebTest extends WebTestCase
         $this->assertContains('testPageTitle',$output);
         $this->assertContains('/test2Page',$output);
         $this->assertContains('test2PageTitle',$output);
-//        print($output);
+        print($output);
     }
 
 

@@ -62,6 +62,10 @@ class Analytics
         $this->getTracker($tracker)->addPageView($pageView);
     }
 
+    public function getDefaultTracker(){
+        return $this->trackerFactory->getDefaultTracker();
+    }
+
 
 
 
