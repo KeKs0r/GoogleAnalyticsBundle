@@ -47,6 +47,7 @@ class AnalyticsWebTest extends WebTestCase
         $this->assertContains('"allowHash":false',$output);
         $this->assertContains('"allowLinker":true',$output);
         $this->assertContains('"trackPageLoadTime":false',$output);
+        $this->assertNotContains('"name":"default"', $output);
     }
 
     public function testPageViewOutput(){
@@ -57,6 +58,7 @@ class AnalyticsWebTest extends WebTestCase
         $this->assertContains('testPageTitle',$output);
         $this->assertContains('/test2Page',$output);
         $this->assertContains('test2PageTitle',$output);
+        print($output);
     }
 
 

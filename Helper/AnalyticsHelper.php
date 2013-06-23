@@ -21,7 +21,7 @@ class AnalyticsHelper extends Helper
 
     public function getTrackers()
     {
-        return $this->analytics->getTrackers();
+        //return $this->analytics->getTrackers();
         $ret = array();
         foreach($this->analytics->getTrackers() as $tracker){
             if($tracker->get('name') == $this->getDefaultTracker()){

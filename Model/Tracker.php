@@ -64,42 +64,45 @@ class Tracker
         return $this->config[$key];
     }
 
-    public function reset($key){
-    unset($this->config[$key]);
-}
-
-public
-function setConfig($config)
-{
-    foreach ($config as $key => $value){
-        $this->set($key,$value);
+    public function reset($key)
+    {
+        unset($this->config[$key]);
     }
-    // $this->config = $config;
-}
 
-public
-function getConfig()
-{
-    return $this->config;
-}
+    public
+    function setConfig(
+        $config
+    ) {
+        foreach ($config as $key => $value) {
+            $this->set($key, $value);
+        }
+        // $this->config = $config;
+    }
 
-public
-function getAccountId()
-{
-    return $this->accountID;
-}
+    public
+    function getConfig()
+    {
+        return $this->config;
+    }
 
-public
-function addPageView($pageView)
-{
-    $this->pageViews[] = $pageView;
-}
+    public
+    function getAccountId()
+    {
+        return $this->accountID;
+    }
 
-public
-function getPageViews()
-{
-    return $this->pageViews;
-}
+    public
+    function addPageView(
+        $pageView
+    ) {
+        $this->pageViews[] = $pageView;
+    }
+
+    public
+    function getPageViews()
+    {
+        return $this->pageViews;
+    }
 
 
 }
