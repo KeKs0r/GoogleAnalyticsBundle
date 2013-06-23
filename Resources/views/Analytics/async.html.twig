@@ -11,9 +11,9 @@
 
     {% if key == google_analytics.defaultTracker %}}
          {%  set prefix = '' %}
-    {% else %}}
+    {% else %}
         {%  set prefix = key ~ '.' %}
-    {% endif %}}
+    {% endif %}
 
 
     ga('create', '{{ tracker.accountId }}', {{ tracker.config|json_encode|raw }});
