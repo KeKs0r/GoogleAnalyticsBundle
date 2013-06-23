@@ -9,7 +9,7 @@
 
     {% for key, tracker in google_analytics.trackers %}
 
-    {% if key == google_analytics.defaultTracker %}}
+    {% if key == google_analytics.defaultTracker %}
          {%  set prefix = '' %}
     {% else %}
         {%  set prefix = key ~ '.' %}
