@@ -30,7 +30,7 @@
     {% endfor %}
     
     
-    {% if tracker.transaction is defined %}
+    {% if tracker.transaction is defined and not tracker.transaction is null %}
         ga('{{ prefix }}require', 'ecommerce', 'ecommerce.js');
         ga('{{ prefix }}ecommerce:addTransaction', {{ tracker.transaction|json_encode|raw }} );
         
