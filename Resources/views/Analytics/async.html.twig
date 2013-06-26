@@ -29,7 +29,7 @@
     ga('{{ key }}.send', {{ event|json_encode|raw }} );
     {% endfor %}
     
-    {% if tracker.transaction is defined and tracker.transaction not null %}
+    {% if tracker.transaction is defined and tracker.transaction not is null %}
         ga('{{ key }}.require', 'ecommerce', 'ecommerce.js');
         ga('{{ key }}.ecommerce:addTransaction', {{ tracker.transaction|json_encode|raw }} );
         
