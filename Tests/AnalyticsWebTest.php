@@ -6,9 +6,9 @@ use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Strego\GoogleBundle\Analytics;
-use Strego\GoogleBundle\Analytics\Event;
-use Strego\GoogleBundle\Analytics\Item;
-use Strego\GoogleBundle\Analytics\Transaction;
+use Strego\GoogleBundle\Model\Event;
+use Strego\GoogleBundle\Model\Item;
+use Strego\GoogleBundle\Model\Transaction;
 use Symfony\Component\Form\Extension\Templating\TemplatingRendererEngine;
 
 class AnalyticsWebTest extends WebTestCase
