@@ -318,7 +318,6 @@ class Analytics
     public function hasEventQueue()
     {
         return $this->has(self::EVENT_QUEUE_KEY);
->>>>>>> 1a1a641f67d37c61a253d661a01add5aad2eef7f
     }
     
     public function setTransaction($transaction, $tracker=null){
