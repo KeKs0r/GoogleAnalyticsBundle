@@ -42,9 +42,14 @@ class AnalyticsWebTest extends WebTestCase
 
     public function testStandardOutput(){
         $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
-        $this->assertContains('ga(\'create\', \'xXxxXx\', {"domain":".example.com","allowHash":false,"allowLinker":true,"trackPageLoadTime":false,"name":"default"});', $output);
-        
         $this->validateTemplate();
+        $this->assertContains('ga(\'create\', \'xXxxXx\'', $output);
+        $this->assertContains('"cookieDomain":".example.com"',$output);
+        $this->assertContains('"allowHash":false',$output);
+        $this->assertContains('"allowLinker":true',$output);
+        $this->assertContains('"trackPageLoadTime":false',$output);
+        $this->assertNotContains('"name":"default"', $output);
+
     }
 
     public function testPageViewOutput(){
@@ -107,11 +112,13 @@ class AnalyticsWebTest extends WebTestCase
     
     protected function validateTemplate(){
         $twig = static::$kernel->getContainer()->get('twig');
-        //try {
+        try {
             $twig->parse($twig->tokenize('StregoGoogleBundle:Analytics:async.html.twig'));
-        //} catch (\Twig_Error $e) {
-        //   $this->fail('template linting failed');
-        //}
+        } catch (\Twig_Error $e) {
+           $this->fail('template linting failed');
+        }
+        //print($output);
+
     }
 
 

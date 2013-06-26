@@ -34,7 +34,7 @@ class Tracker
         return array(
             'name',
             'accountId',
-            'domain',
+            'cookieDomain',
             'allowHash',
             'allowLinker',
             'trackPageLoadTime',
@@ -54,8 +54,9 @@ class Tracker
         $this->config[$key] = $value;
     }
 
-    public function get($key){
-        if(!array_key_exists($key, $this->config)){
+    public function get($key)
+    {
+        if (!array_key_exists($key, $this->config)) {
             throw new InvalidArgumentException(sprintf(
                 "%key% is does not exist, only: %valid%",
                 $key,
@@ -66,24 +67,43 @@ class Tracker
         return $this->config[$key];
     }
 
-    public function setConfig($config){
-        $this->config = $config;
+    public function reset($key)
+    {
+        unset($this->config[$key]);
     }
 
-    public function getConfig()
+    public
+    function setConfig(
+        $config
+    ) {
+        foreach ($config as $key => $value) {
+            $this->set($key, $value);
+        }
+        // $this->config = $config;
+    }
+
+    public
+    function getConfig()
     {
         return $this->config;
     }
 
-    public function getAccountId(){
+    public
+    function getAccountId()
+    {
         return $this->accountID;
     }
 
-    public function addPageView($pageView){
+    public
+    function addPageView(
+        $pageView
+    ) {
         $this->pageViews[] = $pageView;
     }
 
-    public function getPageViews(){
+    public
+    function getPageViews()
+    {
         return $this->pageViews;
     }
     
@@ -114,9 +134,6 @@ class Tracker
     public function getMetricDims(){
         return $this->metricDims;
     }
-
-
-
 
 
 }

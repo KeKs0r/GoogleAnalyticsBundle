@@ -8,6 +8,9 @@ use Symfony\Component\Templating\Helper\Helper;
 
 class AnalyticsHelper extends Helper
 {
+    /**
+     * @var \Strego\GoogleBundle\Analytics
+     */
     private $analytics;
 
 
@@ -18,7 +21,20 @@ class AnalyticsHelper extends Helper
 
     public function getTrackers()
     {
-        return $this->analytics->getTrackers();
+        //return $this->analytics->getTrackers();
+        $ret = array();
+        $trackers = $this->analytics->getTrackers();
+        foreach($trackers as $tracker){
+            if($tracker->get('name') == $this->getDefaultTracker() AND count($tracker) == 1){
+                $tracker->reset('name');
+            }
+            $ret[] = $tracker;
+        }
+        return $ret;
+    }
+
+    public function getDefaultTracker(){
+        return $this->analytics->getDefaultTracker();
     }
 
 

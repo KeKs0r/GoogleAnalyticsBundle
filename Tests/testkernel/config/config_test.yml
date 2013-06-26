@@ -23,7 +23,7 @@ strego_google:
     trackers:
         default:
             accountId: xXxxXx
-            domain: .example.com
+            cookieDomain: .example.com
             allowHash: false
             allowLinker: true
             trackPageLoadTime: false
