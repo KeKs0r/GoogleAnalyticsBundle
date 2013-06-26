@@ -55,7 +55,7 @@ class Analytics
     public function addEvent($category, $action, $label = null, $value = null){
         $event = new Event($category, $action, $label, $value);
         $this->getTracker($tracker)->addEvent($event);
-
+    }
 
     public function getDefaultTracker(){
         return $this->trackerFactory->getDefaultTracker();
