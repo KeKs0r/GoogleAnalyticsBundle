@@ -49,7 +49,12 @@ class AnalyticsWebTest extends WebTestCase
         $this->assertContains('"allowLinker":true',$output);
         $this->assertContains('"trackPageLoadTime":false',$output);
         $this->assertNotContains('"name":"default"', $output);
-
+    }
+    
+    public function testOneTrackerNoPrefix(){
+        $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
+        $this->validateTemplate(); 
+        $this->assertContains("ga('send', 'pageview');",$output);
     }
 
     public function testPageViewOutput(){
