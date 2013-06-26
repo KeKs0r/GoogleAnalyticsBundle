@@ -73,26 +73,36 @@ class AnalyticsWebTest extends WebTestCase
         $this->analytics->addEvent('category1', 'action1');
         $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
         $this->assertContains('category1',$output);
+        $this->assertContains('action1',$output);   
+        $this->validateTemplate();
+    }
+    
+    public function testEventOutputWithMultipleEvents(){
+        $this->analytics->addEvent('category1', 'action1');
+        $this->analytics->addEvent('category2', 'action2', 'label2');
+        $this->analytics->addEvent('category3', 'action3', 'label3', 1823);
+        $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
+
+        $this->assertContains('category1',$output);
         $this->assertContains('action1',$output);
         
-        $this->analytics->addEvent('category2', 'action2', 'label2');
-        $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
+        
         $this->assertContains('category2',$output);
         $this->assertContains('action2',$output);
         $this->assertContains('label2',$output);
         
-        $this->analytics->addEvent('category3', 'action3', 'label3', 1823);
-        $output = $this->template->render('StregoGoogleBundle:Analytics:async.html.twig');
+        
         $this->assertContains('category3',$output);
         $this->assertContains('action3',$output);
         $this->assertContains('label3',$output);
         $this->assertContains('1823',$output);
         
         
-        $this->validateTemplate();
+        $this->validateTemplate();    
     }
     
     public function testEcommerceOutPut(){
+        
         $transaction = new Transaction('7238');
         $item1 = new Item();
         $item1->setPrice(12.43);
@@ -109,7 +119,6 @@ class AnalyticsWebTest extends WebTestCase
         $this->assertContains("7238",$output);
         $this->assertContains("ga('ecommerce:addItem',",$output);
         $this->assertContains("12.43",$output);
-        
         
         $this->validateTemplate();
     }

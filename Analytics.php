@@ -52,7 +52,7 @@ class Analytics
         $this->getTracker($tracker)->addPageView($pageView);
     }
     
-    public function addEvent($category, $action, $label = null, $value = null){
+    public function addEvent($category, $action, $label = null, $value = null, $tracker = null){
         $event = new Event($category, $action, $label, $value);
         $this->getTracker($tracker)->addEvent($event);
     }

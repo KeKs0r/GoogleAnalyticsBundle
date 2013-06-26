@@ -22,3 +22,4 @@ composer.lock
 # IDES
 .c9revisions
 .idea
+phpunit.phar

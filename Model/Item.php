@@ -5,12 +5,12 @@ namespace Strego\GoogleBundle\Model;
 class Item
 {
     
-    private $id;
-    private $name;
-    private $sku;
-    private $category;
-    private $price;
-    private $quantity;
+    public $id;
+    public $name;
+    public $sku;
+    public $category;
+    public $price;
+    public $quantity;
     
     public function setId($id){
         $this->id = $id;

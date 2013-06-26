@@ -4,9 +4,9 @@ namespace Strego\GoogleBundle\Model;
 
 class MetricDimension
 {
-    private $index;
-    private $name;
-    private $value;
+    public $index;
+    public $name;
+    public $value;
 
 
     public function __construct($index, $name, $value)

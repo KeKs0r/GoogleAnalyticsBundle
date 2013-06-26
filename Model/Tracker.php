@@ -43,9 +43,9 @@ class Tracker
 
     public function set($key, $value)
     {
-        if (!in_array($key, $this->getAllowedConfigKeys())) {
+        if (!in_array($key, $this->getAllowedConfigKeys())) {          
             throw new InvalidArgumentException(sprintf(
-                "%key% is not a valid key, only: %valid%",
+                "'%k' is not a valid key, only: %v",
                 $key,
                 implode(',', $this->getAllowedConfigKeys())
             ));
@@ -58,12 +58,11 @@ class Tracker
     {
         if (!array_key_exists($key, $this->config)) {
             throw new InvalidArgumentException(sprintf(
-                "%key% is does not exist, only: %valid%",
+                "'%k' does not exist, only: %v",
                 $key,
                 implode(',', array_keys($this->config))
             ));
         }
-
         return $this->config[$key];
     }
 
@@ -123,7 +122,7 @@ class Tracker
         $this->transaction->addItem($item);
     }
     
-    public function getTransactino(){
+    public function getTransaction(){
         return $this->transaction;
     }
     
@@ -134,6 +133,7 @@ class Tracker
     public function getMetricDims(){
         return $this->metricDims;
     }
+    
 
 
 }

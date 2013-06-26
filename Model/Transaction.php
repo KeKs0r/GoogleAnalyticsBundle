@@ -95,7 +95,7 @@ class Transaction
     }
     
     public function getItems(){
-        return $this->items();
+        return $this->items;
     }
 
 }

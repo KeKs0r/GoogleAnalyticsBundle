@@ -13,17 +13,17 @@ class Event
     /**
      * @Assert\Type(type="string", message="The value {{ value }} is not a valid {{ type }}.")
      */
-    private $action;
+    public $action;
 
     /**
      * @Assert\Type(type="string", message="The value {{ value }} is not a valid {{ type }}.")
      */
-    private $category;
+    public $category;
 
     /**
      * @Assert\Type(type="string", message="The value {{ value }} is not a valid {{ type }}.")
      */
-    private $label;
+    public $label;
 
     /**
      * @Assert\Type(type="integer", message="The value {{ value }} is not a valid {{ type }}.")
@@ -31,7 +31,7 @@ class Event
      *      min = 0
      * )
      */
-    private $value;
+    public $value;
     
     /**
      * Used for automatic JSON transformation to indicate the event send
