@@ -29,7 +29,7 @@ the application's `config.yml` file:
             trackers:
                 default:
                     accountId: xXxxXx
-                    domain: .example.com
+                    cookieDomain: .example.com
 
 #### Full Configugarion Reference
 
@@ -38,7 +38,7 @@ the application's `config.yml` file:
             trackers:
                 default:
                     accountId: xXxxXx
-                    domain: .example.com
+                    cookieDomain: .example.com
                     allowHash: false
                     allowLinker: true
                     trackPageLoadTime: false
