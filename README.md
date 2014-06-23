@@ -11,7 +11,7 @@ Add GoogleBundle to the `registerBundles()` method of your application kernel:
     public function registerBundles()
     {
         return array(
-            new Strego\GoogleBundle\GoogleBundle(),
+            new Strego\GoogleBundle\StregoGoogleBundle(),
         );
     }
 
